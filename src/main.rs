@@ -26,7 +26,6 @@ use std::io::Write;
 use std::{collections::HashMap, thread};
 use text_io::read;
 
-#[cfg(windows)]
 use crossterm::style::Stylize;
 
 use crate::modules::aliases::save_aliases;

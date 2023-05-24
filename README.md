@@ -12,6 +12,17 @@ To build KSH, you need to have the following installed:
 
 Once you have those installed, you can run `cargo build --release` to build KSH.
 
+#### Building for a different platform
+To build KSH for a different platform, you need to have the following installed:
+* Rustup
+
+Once you have that installed, you can run `rustup target add <target>` to add the target to your Rust toolchain.
+Then, you can run `cargo build --release --target <target>` to build KSH for that target.
+
+* For Windows, the target is `x86_64-pc-windows-gnu`
+* For Linux, the target is `x86_64-unknown-linux-gnu`
+* For macOS, the target is `x86_64-apple-darwin` (untested, I don't have a Mac)
+
 #### Code Style
 KSH uses the Rustfmt code style. Please run `cargo fmt` before making a pull request.
 
