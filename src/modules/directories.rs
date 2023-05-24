@@ -43,6 +43,17 @@ pub fn parse_directory_path(path: String) -> String {
     }
 }
 
+#[cfg(not(windows))]
+pub fn parse_directory_path(path: String) -> String {
+    let home_dir = home_dir().unwrap().to_str().unwrap().to_string();
+    if path.starts_with(&home_dir) {
+        let relative_path = path.trim_start_matches(&home_dir);
+        format!("~{}", relative_path)
+    } else {
+        path
+    }
+}
+
 pub fn create_directory_if_not_exists(path: &Path) {
     if !path.exists() {
         if let Err(err) = fs::create_dir_all(path) {

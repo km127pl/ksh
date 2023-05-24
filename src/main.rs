@@ -20,7 +20,7 @@ use commands::write::write_command;
 use modules::aliases::load_aliases;
 
 use core::time;
-use crossterm::terminal::SetTitle;
+
 use std::io::Write;
 use std::{collections::HashMap, thread};
 use text_io::read;
@@ -72,8 +72,7 @@ fn main() {
     .expect("Error setting Ctrl-C handler");
 
     loop {
-        let username: String = String::from("km127pl");
-        SetTitle("KTerm");
+        let username: String = whoami::username();
 
         let prompt: String;
         if let Ok(current_dir) = std::env::current_dir() {

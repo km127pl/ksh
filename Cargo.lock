@@ -195,15 +195,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "conpty"
-version = "0.5.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b72b06487a0d4683349ad74d62e87ad639b09667082b3c495c5b6bab7d84b3da"
-dependencies = [
- "windows 0.44.0",
-]
-
-[[package]]
 name = "coolor"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -468,7 +459,7 @@ dependencies = [
  "iana-time-zone-haiku",
  "js-sys",
  "wasm-bindgen",
- "windows 0.48.0",
+ "windows",
 ]
 
 [[package]]
@@ -535,13 +526,10 @@ dependencies = [
  "chrono",
  "clearscreen",
  "colored",
- "conpty",
  "crossterm 0.26.1",
  "ctrlc",
  "dirs 5.0.1",
- "libc",
  "raw-cpuid",
- "serde",
  "sys",
  "sysinfo",
  "term_size",
@@ -1244,15 +1232,6 @@ name = "winapi-x86_64-pc-windows-gnu"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
-
-[[package]]
-name = "windows"
-version = "0.44.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e745dab35a0c4c77aa3ce42d595e13d2003d6902d6b08c9ef5fc326d08da12b"
-dependencies = [
- "windows-targets 0.42.2",
-]
 
 [[package]]
 name = "windows"
