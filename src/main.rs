@@ -11,6 +11,7 @@ use commands::neofetch::neofetch_command;
 use commands::pwd::pwd_command;
 use commands::read::read_command;
 use commands::rm::rm_command;
+use commands::rmdir::rmdir_command;
 use commands::run::run_command;
 use commands::tail::tail_command;
 use commands::touch::touch_command;
@@ -49,6 +50,7 @@ pub mod commands {
     pub mod touch;
     pub mod wc;
     pub mod write;
+    pub mod rmdir;
 }
 
 pub mod modules {
@@ -143,11 +145,11 @@ fn execute_command(command: &String, aliases: &HashMap<String, String>) {
     let args: Vec<&str> = command.split_whitespace().collect();
 
     match args[0] {
-        "read" => read_command(args),
-        "cat" => read_command(args),
+        "read" | "cat" => read_command(args),
         "write" => write_command(args),
         "pwd" => pwd_command(),
         "mkdir" => mkdir_command(args),
+        "rmdir" => rmdir_command(args),
         "clear" => clear_command(),
         "touch" => touch_command(args),
         "rm" => rm_command(args),
@@ -159,7 +161,7 @@ fn execute_command(command: &String, aliases: &HashMap<String, String>) {
         "neofetch" => neofetch_command(),
         "run" => run_command(args),
         "wc" => wc_command(args),
-        "edit" => edit_command(args),
+        "edit" | "nano" => edit_command(args),
         "exit" | "quit" => exit_command(&aliases),
         "help" => help_command(),
         _ => {

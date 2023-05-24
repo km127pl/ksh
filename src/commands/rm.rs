@@ -5,5 +5,10 @@ pub fn rm_command(args: Vec<&str>) {
         println!("Not enough arguments provided for 'rm' (expected at least 1: [file]).");
         return;
     }
-    fs::remove_file(args[1]).expect("Error while deleting file")
+    let file = args[1];
+    if fs::metadata(file).unwrap().is_file() {
+        fs::remove_dir(file).expect("Failed to remove file");
+    } else {
+        println!("'{}' is not a file.", file);
+    }
 }

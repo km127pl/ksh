@@ -65,8 +65,12 @@ pub fn create_directory_if_not_exists(path: &Path) {
 pub fn create_directory(directory: &str) {
     if let Err(err) = fs::create_dir_all(directory) {
         println!("Failed to create directory '{}': {}", directory, err);
-    } else {
-        println!("Directory '{}' created successfully.", directory);
+    }
+}
+
+pub fn remove_directory(directory: &str) {
+    if let Err(err) = fs::remove_dir_all(directory) {
+        println!("Failed to remove directory '{}': {}", directory, err);
     }
 }
 

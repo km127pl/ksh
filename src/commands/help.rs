@@ -91,6 +91,26 @@ pub fn help_command() {
             description: "Runs a script from a ksh file".to_owned(),
             arguments: vec!["file".to_string()],
         },
+        Command {
+            name: "edit".to_owned(),
+            description: "Opens a file in the editor".to_owned(),
+            arguments: vec!["file".to_string()],
+        },
+        Command {
+            name: "mkdir".to_owned(),
+            description: "Creates a new directory".to_owned(),
+            arguments: vec!["directory".to_string()],
+        },
+        Command {
+            name: "rmdir".to_owned(),
+            description: "Removes a directory".to_owned(),
+            arguments: vec!["directory".to_string()],
+        },
+        Command {
+            name: "rm".to_owned(),
+            description: "Removes a file".to_owned(),
+            arguments: vec!["file".to_string()],
+        },
     ];
     println!("{}", "Available commands:".bold().cyan());
 
