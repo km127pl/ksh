@@ -21,7 +21,7 @@ pub fn change_directory(directory: &str) {
         // switch to user directory
         new_dir = PathBuf::from(format!("C:\\Users\\{}", whoami::username()));
     } else {
-        // Change to the specified directory
+        // change to the specified directory
         new_dir = PathBuf::from(directory);
     }
 
