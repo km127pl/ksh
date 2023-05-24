@@ -1,10 +1,8 @@
-use core::num;
-use std::io::{self, stdout, Write};
-use std::process::{Command, Stdio};
+use std::io::{stdout, Write};
 
 use crossterm::{
     cursor::{self, MoveTo},
-    event::{self, read, Event, KeyCode, KeyEvent, KeyModifiers},
+    event::{read, Event, KeyCode, KeyEvent, KeyModifiers},
     execute,
     style::Stylize,
     terminal::{
