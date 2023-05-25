@@ -62,11 +62,21 @@ pub mod modules {
 
 fn main() {
     let env_args: Vec<String> = std::env::args().collect();
-    if env_args.len() > 1 {
-        let script = &env_args[1];
-        run_command(["", script, "env"].to_vec());
-    }
     let mut aliases: HashMap<String, String> = load_aliases().unwrap_or_else(HashMap::new);
+    if env_args.len() > 1 {
+        match &env_args[1].as_ref() {
+            &"-c" => {
+                if env_args.len() < 3 {
+                    println!("{}", "You must supply a command to execute!".red());
+                    return;
+                }
+                let command = &env_args[2..].join(" ");
+                execute_command(command, &aliases);
+                return;
+            }
+            _ => run_command(["", &env_args[1], "env"].to_vec())
+        }
+    }
     ctrlc::set_handler(|| {
         // Handle Ctrl-C signal
     })

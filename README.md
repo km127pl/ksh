@@ -12,6 +12,12 @@ To build KSH, you need to have the following installed:
 
 Once you have those installed, you can run `cargo build --release` to build KSH.
 
+### Usage
+You can run KSH by running the executable in `target/release/`.
+
+* You can run `ksh -c <command>` to run a comman directly.
+* Otherwise, you can run `ksh` to start an interactive shell.
+
 #### Building for a different platform
 To build KSH for a different platform, you need to have the following installed:
 * Rustup
