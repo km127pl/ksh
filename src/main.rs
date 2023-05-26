@@ -1,5 +1,6 @@
 use commands::cd::cd_command;
 use commands::clear::clear_command;
+use commands::clock::clock_command;
 use commands::cp::cp_command;
 use commands::edit::edit_command;
 use commands::exec::exec_command;
@@ -55,6 +56,7 @@ pub mod commands {
     pub mod rmdir;
     pub mod mv;
     pub mod cp;
+    pub mod clock;
 }
 
 pub mod modules {
@@ -175,6 +177,7 @@ fn execute_command(command: &String, aliases: &HashMap<String, String>, executab
         "head" => head_command(args),
         "cd" => cd_command(args),
         "cp" => cp_command(args),
+        "clock" => clock_command(),
         "mv" => mv_command(args),
         "exec" => exec_command(args),
         "tail" => tail_command(args),
