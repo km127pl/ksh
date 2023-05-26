@@ -30,6 +30,7 @@ use crossterm::style::Stylize;
 
 use crate::modules::aliases::save_aliases;
 use crate::modules::directories::parse_directory_path;
+use crate::modules::path::get_path_env;
 pub mod commands {
     pub mod cd;
     pub mod clear;
@@ -58,11 +59,13 @@ pub mod modules {
     pub mod directories;
     pub mod display;
     pub mod systeminfo;
+    pub mod path;
 }
 
 fn main() {
     let env_args: Vec<String> = std::env::args().collect();
     let mut aliases: HashMap<String, String> = load_aliases().unwrap_or_else(HashMap::new);
+    let executables: HashMap<String, std::path::PathBuf> = get_path_env();
     if env_args.len() > 1 {
         match &env_args[1].as_ref() {
             &"-c" => {
@@ -70,9 +73,9 @@ fn main() {
                     println!("{}", "You must supply a command to execute!".red());
                     return;
                 }
-                let command = &env_args[2..].join(" ");
+                let command: &String = &env_args[2..].join(" ");
                 println!("{:?}", aliases);
-                execute_command(command, &aliases);
+                execute_command(command, &aliases, &executables);
                 return;
             }
             _ => run_command(["", &env_args[1], "env"].to_vec())
@@ -142,10 +145,12 @@ fn main() {
             println!("{} {}", "Removed the alias".red(), &cmd);
             continue;
         }
+
+        execute_command(&command, &aliases, &executables);
     }
 }
 
-fn execute_command(command: &String, aliases: &HashMap<String, String>) {
+fn execute_command(command: &String, aliases: &HashMap<String, String>, executables: &HashMap<String, std::path::PathBuf>) {
     let mut args: Vec<&str> = command.split_whitespace().collect();
     
     if let Some(alias_cmd) = aliases.get(args[0]) { // check for aliases
@@ -174,7 +179,16 @@ fn execute_command(command: &String, aliases: &HashMap<String, String>) {
         "exit" | "quit" => exit_command(&aliases),
         "help" => help_command(),
         _ => {
-            //TODO: using a hashmap of all executables in $path, run that executable if it matches our command
+            if let Some(exec) = executables.get(args[0]) {
+                // our command matches a executable in path
+                // we can just run the `exec` command with the current args
+                if let Some(path) = exec.as_path().to_str() {
+                    args.insert(0, " ");
+                    args.insert(0, path);
+                    exec_command(args);
+                }
+                return;
+            }
             println!(
                 "{} {}",
                 "Invalid command:".red(),

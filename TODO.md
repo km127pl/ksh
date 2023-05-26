@@ -3,7 +3,7 @@
 - [ ]  config file in the config directory
     - prompt
     - disable/enable commands
-- [ ]  passthrough to commands in the path
+- [x]  passthrough to commands in the path
 - [ ]  push to source control on local server
 - [ ]  automatic tests for commands
 - [x]  passthrough for commands e.g. `ksh -c ls` will run and exit

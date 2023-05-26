@@ -8,7 +8,7 @@ pub fn exec_command(args: Vec<&str>) {
         return;
     }
 
-    let command = args[1..].join(" ");
+    let command: String = args[1..].join(" ");
 
     let output: Result<std::process::Output, io::Error> =
         Command::new("cmd").args(&["/C", &command]).output();
@@ -24,10 +24,19 @@ pub fn exec_command(args: Vec<&str>) {
                 }
 
                 if !stderr.is_empty() {
-                    eprintln!("{}", stderr.red());
+                    eprintln!("{}", stderr);
                 }
             } else {
-                eprintln!("{} {}", "Command failed:".red(), output.status);
+                eprintln!(
+                    "{}\n{}",
+                    format!(
+                        "Command '{}' exited with code {}.",
+                        args[2],
+                        output.status.code().unwrap_or(1)
+                    ).red(),
+                    String::from_utf8_lossy(&output.stderr).trim_end()
+                    .red()
+                );
             }
         }
         Err(err) => {
