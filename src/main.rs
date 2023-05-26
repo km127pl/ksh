@@ -7,6 +7,7 @@ use commands::head::head_command;
 use commands::help::help_command;
 use commands::ls::ls_command;
 use commands::mkdir::mkdir_command;
+use commands::mv::mv_command;
 use commands::neofetch::neofetch_command;
 use commands::pwd::pwd_command;
 use commands::read::read_command;
@@ -51,6 +52,7 @@ pub mod commands {
     pub mod wc;
     pub mod write;
     pub mod rmdir;
+    pub mod mv;
 }
 
 pub mod modules {
@@ -170,6 +172,7 @@ fn execute_command(command: &String, aliases: &HashMap<String, String>, executab
         "ls" => ls_command(args),
         "head" => head_command(args),
         "cd" => cd_command(args),
+        "mv" => mv_command(args),
         "exec" => exec_command(args),
         "tail" => tail_command(args),
         "neofetch" => neofetch_command(),

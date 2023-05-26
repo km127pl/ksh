@@ -111,6 +111,21 @@ pub fn help_command() {
             description: "Removes a file".to_owned(),
             arguments: vec!["file".to_string()],
         },
+        Command {
+            name: "mv".to_owned(),
+            description: "Moves a file".to_owned(),
+            arguments: vec!["file".to_string(), "destination".to_string()],
+        },
+        Command {
+            name: "cp".to_owned(),
+            description: "Copies a file".to_owned(),
+            arguments: vec!["file".to_string(), "destination".to_string()],
+        },
+        Command {
+            name: "clock".to_owned(),
+            description: "Shows the current time".to_owned(),
+            arguments: vec![],
+        }
     ];
     println!("{}", "Available commands:".bold().cyan());
 
