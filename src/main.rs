@@ -71,6 +71,7 @@ fn main() {
                     return;
                 }
                 let command = &env_args[2..].join(" ");
+                println!("{:?}", aliases);
                 execute_command(command, &aliases);
                 return;
             }
@@ -141,18 +142,17 @@ fn main() {
             println!("{} {}", "Removed the alias".red(), &cmd);
             continue;
         }
-
-        if let Some(alias_cmd) = aliases.get(args[0]) {
-            execute_command(alias_cmd, &aliases);
-        } else {
-            execute_command(&command, &aliases);
-        }
     }
 }
 
 fn execute_command(command: &String, aliases: &HashMap<String, String>) {
-    let args: Vec<&str> = command.split_whitespace().collect();
-
+    let mut args: Vec<&str> = command.split_whitespace().collect();
+    
+    if let Some(alias_cmd) = aliases.get(args[0]) { // check for aliases
+        // a bit wasteful, but will work for now
+        args = alias_cmd.split_whitespace().collect();
+    }
+    
     match args[0] {
         "read" | "cat" => read_command(args),
         "write" => write_command(args),
