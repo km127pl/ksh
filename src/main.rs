@@ -177,7 +177,7 @@ fn execute_command(command: &String, aliases: &HashMap<String, String>, executab
         "head" => head_command(args),
         "cd" => cd_command(args),
         "cp" => cp_command(args),
-        "clock" => clock_command(),
+        "clock" | "date" => clock_command(),
         "mv" => mv_command(args),
         "exec" => exec_command(args),
         "tail" => tail_command(args),

@@ -8,3 +8,4 @@
 - [ ]  automatic tests for commands
 - [x]  passthrough for commands e.g. `ksh -c ls` will run and exit
 - [ ]  move `alias` & `unalias` to a separate file in `commands`
+- [x]  `clock` command (alias of `date`)
