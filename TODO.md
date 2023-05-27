@@ -1,11 +1,16 @@
-- [ ]  edit command
-- [ ]  dynamic help command
-- [ ]  config file in the config directory
-    - prompt
-    - disable/enable commands
-- [x]  passthrough to commands in the path
-- [ ]  push to source control on local server
 - [ ]  automatic tests for commands
-- [x]  passthrough for commands e.g. `ksh -c ls` will run and exit
+- [ ]  background jobs
+- [ ]  command history (up/down arrow)
+- [ ]  config file in the config directory
+- [ ]  dynamic help command
+- [ ]  edit command
+- [ ]  environment variables
+- [ ]  localisation
 - [ ]  move `alias` & `unalias` to a separate file in `commands`
+- [ ]  tab completion
 - [x]  `clock` command (alias of `date`)
+- [x]  disable/enable commands
+- [x]  passthrough for commands e.g. `ksh -c ls` will run and exit
+- [x]  passthrough to commands in the path
+- [x]  prompt
+- [x]  push to source control on local server
