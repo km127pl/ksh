@@ -5,7 +5,9 @@ use crossterm::style::Stylize;
 
 use crate::modules::directories::convert_to_human_readable;
 
-pub fn ls_command(args: Vec<&str>) {
+use crate::modules::command::CommandResult;
+
+pub fn ls_command(args: Vec<&str>) -> CommandResult {
     let mut show_hidden = false;
     let mut show_long_format = false;
     let mut human_readable = false;
@@ -20,13 +22,13 @@ pub fn ls_command(args: Vec<&str>) {
                     'h' => human_readable = true,
                     _ => {
                         println!("Invalid flag: -{}", flag);
-                        return;
+                        return CommandResult::Failure;
                     }
                 }
             }
         } else {
             println!("Invalid argument: {}", arg);
-            return;
+            return CommandResult::Failure;
         }
     }
 
@@ -34,7 +36,7 @@ pub fn ls_command(args: Vec<&str>) {
         Ok(dir) => dir,
         Err(err) => {
             println!("Unable to determine the current directory: {}", err);
-            return;
+            return CommandResult::Failure;
         }
     };
 
@@ -92,5 +94,8 @@ pub fn ls_command(args: Vec<&str>) {
         }
     } else {
         println!("{}", "Unable to read directory contents.".red());
+        return CommandResult::Failure;
     }
+
+    CommandResult::Success
 }

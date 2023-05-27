@@ -3,10 +3,12 @@ use std::{
     io::{self, BufRead, BufReader},
 };
 
-pub fn head_command(args: Vec<&str>) {
+use crate::modules::command::CommandResult;
+
+pub fn head_command(args: Vec<&str>) -> CommandResult {
     if args.len() < 2 {
         println!("Not enough arguments provided for 'head' (expected 1: [file name]).");
-        return;
+        return CommandResult::Failure;
     }
 
     let file_path = &args[1];
@@ -14,7 +16,10 @@ pub fn head_command(args: Vec<&str>) {
 
     if let Err(err) = head(file_path, num_lines) {
         println!("Error: {}", err);
+        return CommandResult::Failure;
     }
+
+    CommandResult::Success
 }
 
 fn head(file_path: &str, num_lines: usize) -> io::Result<()> {

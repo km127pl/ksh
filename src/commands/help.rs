@@ -1,5 +1,7 @@
 use crossterm::style::Stylize;
 
+use crate::modules::command::CommandResult;
+
 struct Command {
     name: String,
     description: String,
@@ -8,9 +10,8 @@ struct Command {
 
 // todo, this should be either dynamic, or a hashmap of COMMAND, ARGS, DESCRIPTION
 // like a struct
-
-pub fn help_command() {
-    let commands = vec![
+pub fn help_command() -> CommandResult {
+    let commands: Vec<Command> = vec![
         Command {
             name: "alias".to_owned(),
             description: "Creates an alias".to_owned(),
@@ -132,6 +133,8 @@ pub fn help_command() {
     for command in commands {
         print_command(&command);
     }
+
+    CommandResult::Success
 }
 
 fn print_command(command: &Command) {

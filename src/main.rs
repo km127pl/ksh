@@ -15,13 +15,14 @@ use commands::pwd::pwd_command;
 use commands::read::read_command;
 use commands::rm::rm_command;
 use commands::rmdir::rmdir_command;
-use commands::run::run_command;
+use commands::run::{run_command, self};
 use commands::tail::tail_command;
 use commands::touch::touch_command;
 use commands::wc::wc_command;
 use commands::write::write_command;
 
 use modules::aliases::load_aliases;
+use modules::command::CommandResult;
 
 use core::time;
 
@@ -66,12 +67,15 @@ pub mod modules {
     pub mod display;
     pub mod path;
     pub mod systeminfo;
+    pub mod test;
+    pub mod command;
 }
 
 fn main() {
     let env_args: Vec<String> = std::env::args().collect();
     let mut aliases: HashMap<String, String> = load_aliases().unwrap_or_else(HashMap::new);
     let executables: HashMap<String, std::path::PathBuf> = get_path_env();
+    let mut exit_code : u8 = 0;
     if env_args.len() > 1 {
         match &env_args[1].as_ref() {
             &"-c" => {
@@ -84,7 +88,9 @@ fn main() {
                 execute_command(command, &aliases, &executables);
                 return;
             }
-            _ => run_command(["", &env_args[1], "env"].to_vec()),
+            _ => {
+                run_command(["", &env_args[1], "env"].to_vec());
+            },
         }
     }
     ctrlc::set_handler(|| {
@@ -95,12 +101,13 @@ fn main() {
     loop {
         let username: String = whoami::username();
 
-        let prompt: String;
+        let mut prompt: String;
         if let Ok(current_dir) = std::env::current_dir() {
             prompt = String::from(format!(
-                "{} {} {} ",
+                "{} {} {} {} ",
                 username.cyan(),
                 parse_directory_path(current_dir.display().to_string()).blue(),
+                format!("{}", exit_code).red(),
                 "#".cyan().bold()
             ));
         } else {
@@ -152,7 +159,16 @@ fn main() {
             continue;
         }
 
-        execute_command(&command, &aliases, &executables);
+        let output : CommandResult = execute_command(&command, &aliases, &executables);
+
+        if output == CommandResult::Failure {
+            exit_code = 1;
+        } else if output == CommandResult::Exit {
+            break;
+        } else {
+            exit_code = 0;
+        }
+    
     }
 }
 
@@ -160,7 +176,7 @@ fn execute_command(
     command: &String,
     aliases: &HashMap<String, String>,
     executables: &HashMap<String, std::path::PathBuf>,
-) {
+) -> CommandResult {
     let mut args: Vec<&str> = command.split_whitespace().collect();
 
     if let Some(alias_cmd) = aliases.get(args[0]) {
@@ -194,20 +210,23 @@ fn execute_command(
         "help" => help_command(),
         _ => {
             if let Some(exec) = executables.get(args[0]) {
-                // our command matches a executable in path
+                // our command matches an executable in path
                 // we can just run the `exec` command with the current args
                 if let Some(path) = exec.as_path().to_str() {
                     args.insert(0, " ");
                     args.insert(0, path);
-                    exec_command(args);
+                    exec_command(args)
+                } else {
+                    CommandResult::Failure
                 }
-                return;
+            } else {
+                println!(
+                    "{} {}",
+                    "Invalid command:".red(),
+                    String::from(args[0]).yellow()
+                );
+                CommandResult::Failure
             }
-            println!(
-                "{} {}",
-                "Invalid command:".red(),
-                String::from(args[0]).yellow()
-            );
         }
     }
 }

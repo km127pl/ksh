@@ -1,4 +1,5 @@
 use std::io::stdout;
+use crate::modules::command::CommandResult;
 
 use crossterm::{
     cursor::{self, MoveTo},
@@ -21,13 +22,13 @@ use crossterm::{
    reading files with newlines
 */
 
-pub fn edit_command(args: Vec<&str>) {
+pub fn edit_command(args: Vec<&str>) -> CommandResult {
     if args.len() < 2 {
         println!("Not enough arguments provided for 'edit' (expected 1: [file name]).");
-        return;
+        return CommandResult::Failure;
     }
 
-    let mut stdout = stdout();
+    let mut stdout: std::io::Stdout = stdout();
     execute!(stdout, EnterAlternateScreen).unwrap();
 
     enable_raw_mode().expect("Failed to enable raw mode");
@@ -84,7 +85,7 @@ pub fn edit_command(args: Vec<&str>) {
                     disable_raw_mode().expect("Failed to disable raw mode");
 
                     execute!(stdout, LeaveAlternateScreen).unwrap();
-                    break;
+                    return CommandResult::Success;
                 }
                 Event::Key(KeyEvent {
                     code: KeyCode::Char(c),

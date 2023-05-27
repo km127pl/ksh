@@ -5,7 +5,9 @@ use crate::modules::{
     systeminfo::{get_system_info, SystemInfo},
 };
 
-pub fn neofetch_command() {
+use crate::modules::command::CommandResult;
+
+pub fn neofetch_command() -> CommandResult {
     let info: SystemInfo = get_system_info();
 
     // println!("OS: {}", info.os);
@@ -26,6 +28,8 @@ pub fn neofetch_command() {
         convert_to_human_readable(info.max_memory)
     );
     display_stat("CPU", format!("{}", info.cpu));
+
+    CommandResult::Success
 }
 
 fn display_stat(key: &str, value: String) {

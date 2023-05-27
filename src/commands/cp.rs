@@ -1,7 +1,9 @@
-pub fn cp_command(args: Vec<&str>) {
+use crate::modules::command::CommandResult;
+
+pub fn cp_command(args: Vec<&str>) -> CommandResult {
     if args.len() < 3 {
         println!("Not enough arguments provided for 'cp' (expected 2: [source] [destination]).");
-        return;
+        return CommandResult::Failure;
     }
 
     let source: &std::path::Path = std::path::Path::new(args[1]);
@@ -9,12 +11,12 @@ pub fn cp_command(args: Vec<&str>) {
 
     if !source.exists() {
         println!("Source '{}' does not exist.", source.display());
-        return;
+        return CommandResult::Failure;
     }
 
     if !source.is_file() {
         println!("Source '{}' is not a file.", source.display());
-        return;
+        return CommandResult::Failure;
     }
 
     let source_file_name = source.file_name().unwrap();
@@ -33,13 +35,16 @@ pub fn cp_command(args: Vec<&str>) {
             "Destination file '{}' already exists.",
             destination.display()
         );
-        return;
+        return CommandResult::Failure;
     }
 
     match std::fs::copy(source, destination_file) {
-        Ok(_) => {}
+        Ok(_) => {
+            return CommandResult::Success;
+        }
         Err(err) => {
             println!("Failed to copy '{}': {}", source.display(), err);
+            return CommandResult::Failure;
         }
     }
 }

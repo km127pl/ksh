@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::process::exit;
 use std::{fmt, fs};
 
+use crate::modules::command::CommandResult;
+
 #[derive(Debug)]
 enum CommandType {
     PRINT,
@@ -46,10 +48,10 @@ struct Command {
     args: String,
 }
 
-pub fn run_command(args: Vec<&str>) {
+pub fn run_command(args: Vec<&str>) -> CommandResult {
     if args.len() < 2 {
         println!("Not enough arguments provided for 'run' (expected 1: [file name]).");
-        return;
+        return CommandResult::Failure;
     }
     let contents: Result<String, std::io::Error> = std::fs::read_to_string(args[1]);
 
@@ -63,9 +65,11 @@ pub fn run_command(args: Vec<&str>) {
     if args.len() > 2 {
         if &args[2] == &"env" {
             // we are being called from the executable alone
-            exit(0);
+            std::process::exit(0)
         }
     }
+
+    CommandResult::Success
 }
 
 fn exec_script(script: String) {

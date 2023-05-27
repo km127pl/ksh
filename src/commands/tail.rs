@@ -1,17 +1,22 @@
 use std::io::{self, BufRead, BufReader};
 
-pub fn tail_command(args: Vec<&str>) {
+use crate::modules::command::CommandResult;
+
+pub fn tail_command(args: Vec<&str>) -> CommandResult {
     if args.len() < 2 {
         println!("Not enough arguments provided for 'tail' (expected 1: [file name]).");
-        return;
+        return CommandResult::Failure;
     }
 
-    let file_path = &args[1];
-    let num_lines = 10; // Default number of lines to display
+    let file_path: &&str = &args[1];
+    let num_lines: usize = 10; // Default number of lines to display
 
     if let Err(err) = tail(file_path, num_lines) {
         println!("Error: {}", err);
+        return CommandResult::Failure;
     }
+
+    CommandResult::Success
 }
 
 fn tail(file_path: &str, num_lines: usize) -> io::Result<()> {
