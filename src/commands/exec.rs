@@ -31,7 +31,7 @@ pub fn exec_command(args: Vec<&str>) {
                     "{}\n{}",
                     format!(
                         "Command '{}' exited with code {}.",
-                        args[2],
+                        args[1],
                         output.status.code().unwrap_or(1)
                     ).red(),
                     String::from_utf8_lossy(&output.stderr).trim_end()
