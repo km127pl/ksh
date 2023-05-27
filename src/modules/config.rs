@@ -1,9 +1,9 @@
 use super::directories::create_directory_if_not_exists;
 
 #[cfg(windows)]
-use dirs::{config_dir};
+use dirs::config_dir;
 #[cfg(not(windows))]
-use dirs::{home_dir};
+use dirs::home_dir;
 
 use std::path::PathBuf;
 

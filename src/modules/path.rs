@@ -1,6 +1,6 @@
-use std::env;
-use std::path::{PathBuf};
 use std::collections::HashMap;
+use std::env;
+use std::path::PathBuf;
 
 pub fn get_path_env() -> HashMap<String, PathBuf> {
     let path_env: String = env::var("PATH").unwrap_or_else(|_| String::new());
@@ -27,7 +27,6 @@ pub fn get_path_env() -> HashMap<String, PathBuf> {
             }
         }
     }
-
 
     executables
 }

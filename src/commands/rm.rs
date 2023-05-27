@@ -19,7 +19,7 @@ pub fn rm_command(args: Vec<&str>) {
     }
 
     match fs::remove_file(file) {
-        Ok(_) => {},
+        Ok(_) => {}
         Err(err) => {
             println!("Failed to remove '{}': {}", file_name, err);
         }

@@ -29,12 +29,15 @@ pub fn mv_command(args: Vec<&str>) {
     }
 
     if destination.exists() {
-        println!("Destination file '{}' already exists.", destination.display());
+        println!(
+            "Destination file '{}' already exists.",
+            destination.display()
+        );
         return;
     }
 
     match std::fs::rename(source, destination_file) {
-        Ok(_) => {},
+        Ok(_) => {}
         Err(err) => {
             println!("Failed to move '{}': {}", source.display(), err);
         }

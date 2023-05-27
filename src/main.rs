@@ -37,6 +37,8 @@ use crate::modules::path::get_path_env;
 pub mod commands {
     pub mod cd;
     pub mod clear;
+    pub mod clock;
+    pub mod cp;
     pub mod edit;
     pub mod exec;
     pub mod exit;
@@ -44,19 +46,17 @@ pub mod commands {
     pub mod help;
     pub mod ls;
     pub mod mkdir;
+    pub mod mv;
     pub mod neofetch;
     pub mod pwd;
     pub mod read;
     pub mod rm;
+    pub mod rmdir;
     pub mod run;
     pub mod tail;
     pub mod touch;
     pub mod wc;
     pub mod write;
-    pub mod rmdir;
-    pub mod mv;
-    pub mod cp;
-    pub mod clock;
 }
 
 pub mod modules {
@@ -64,8 +64,8 @@ pub mod modules {
     pub mod config;
     pub mod directories;
     pub mod display;
-    pub mod systeminfo;
     pub mod path;
+    pub mod systeminfo;
 }
 
 fn main() {
@@ -84,7 +84,7 @@ fn main() {
                 execute_command(command, &aliases, &executables);
                 return;
             }
-            _ => run_command(["", &env_args[1], "env"].to_vec())
+            _ => run_command(["", &env_args[1], "env"].to_vec()),
         }
     }
     ctrlc::set_handler(|| {
@@ -156,14 +156,19 @@ fn main() {
     }
 }
 
-fn execute_command(command: &String, aliases: &HashMap<String, String>, executables: &HashMap<String, std::path::PathBuf>) {
+fn execute_command(
+    command: &String,
+    aliases: &HashMap<String, String>,
+    executables: &HashMap<String, std::path::PathBuf>,
+) {
     let mut args: Vec<&str> = command.split_whitespace().collect();
-    
-    if let Some(alias_cmd) = aliases.get(args[0]) { // check for aliases
+
+    if let Some(alias_cmd) = aliases.get(args[0]) {
+        // check for aliases
         // a bit wasteful, but will work for now
         args = alias_cmd.split_whitespace().collect();
     }
-    
+
     match args[0] {
         "read" | "cat" => read_command(args),
         "write" => write_command(args),

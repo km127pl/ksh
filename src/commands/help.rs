@@ -125,7 +125,7 @@ pub fn help_command() {
             name: "clock".to_owned(),
             description: "Shows the current time".to_owned(),
             arguments: vec![],
-        }
+        },
     ];
     println!("{}", "Available commands:".bold().cyan());
 

@@ -1,4 +1,4 @@
-use std::io::{stdout};
+use std::io::stdout;
 
 use crossterm::{
     cursor::{self, MoveTo},
