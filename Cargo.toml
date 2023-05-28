@@ -9,6 +9,7 @@ clearscreen = "2.0.1"
 crossterm = "0.26.1"
 ctrlc = "3.3.0"
 dirs = "5.0.1"
+lazy_static = "1.4.0"
 raw-cpuid = { version = "11.0.1", features = ["cli"] }
 sys = "0.0.0"
 sysinfo = "0.29.0"

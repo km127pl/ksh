@@ -15,7 +15,7 @@ use commands::pwd::pwd_command;
 use commands::read::read_command;
 use commands::rm::rm_command;
 use commands::rmdir::rmdir_command;
-use commands::run::{run_command, self};
+use commands::run::{run_command};
 use commands::tail::tail_command;
 use commands::touch::touch_command;
 use commands::wc::wc_command;
